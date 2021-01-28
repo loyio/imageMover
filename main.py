@@ -4,3 +4,13 @@
  @Author: Loyio
  @Date: 2021/1/28
 """
+import sys
+from uploader import *
+from parser import *
+if __name__ == '__main__':
+    if (len(sys.argv) < 2) or not(sys.argv[1][-3:] == ".md"):
+        print("❗️ Please append a markdown file path ❗️")
+    else:
+        markdown_file_path = sys.argv[1]
+        parser = Parser(markdown_file_path)
+        uploader = Uploader()
