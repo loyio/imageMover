@@ -13,4 +13,6 @@ if __name__ == '__main__':
     else:
         markdown_file_path = sys.argv[1]
         parser = Parser(markdown_file_path)
+        print(parser.get_imageLinkList())
         uploader = Uploader()
+        uploader.getImageFromUrl(parser.get_imageLinkList()[0][1])

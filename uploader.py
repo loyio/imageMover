@@ -6,6 +6,8 @@
 """
 import json
 import urllib.parse
+import requests
+import re
 
 
 class Uploader(object):
@@ -16,8 +18,7 @@ class Uploader(object):
         self.content = "asdfsafas"
         self.getConfig()
         self.setRequestParameters(self.path, self.content)
-        print(self.parameters)
-        self.showConfig()
+        # self.showConfig()
 
     def getConfig(self):
         with open('conf.json', 'r') as f:
@@ -33,5 +34,13 @@ class Uploader(object):
         self.parameters.update(message="📡 Uploaded by imageMover \n👉🎉️ Powered by "
                                        "🔗https://github.com/loyio/imageMover 🎉👈")
 
+    def getImageFromUrl(self, url):
+        file_name = self.generateFilename(url)
+        print(file_name)
+        res = requests.get(url)
+        print("status_code: " + str(res.status_code))
+        with open(file_name, 'wb') as f:
+            f.write(res.content)
 
-
+    def generateFilename(self, url):
+        return re.findall(r".*\/(.+?)\..*", url)[0]+"."+re.findall(r".*\/.*\.(.+?)$", url)[0]
